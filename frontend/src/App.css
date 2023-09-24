@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 .home button { 
   position: absolute; 
   top: 10px; 
@@ -13,18 +11,32 @@
   left: 10px;
 }
 
-form {  /* do not know why not centering */ 
+.container { 
+  display: flex; 
+  flex-direction: column; 
+  margin: auto;
+  background-color: rgb(213, 231, 231);
+  margin-top:100px;
+  padding-bottom: 30px;
+  width: 400px;
+  height: auto;
+  border-radius:5px;
+}
+
+form {  
   display: flex; 
   flex-direction: column;
   justify-content: center;
-  margin-inline: 400px;
+  align-items: center;
   padding: 10px;
-  border-style: ridge;
-  border-radius: 5px;
 }
 
-form label { 
+label { 
   text-align: left;
+}
+
+input { 
+  margin: 5px;
 }
 
 .error { 
