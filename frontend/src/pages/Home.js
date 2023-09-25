@@ -8,12 +8,11 @@ function Home () {
     return (
         <div className= "home">
             <h1>City of Williamston</h1>
-            <Link to = '/login'><button className = "login">Login/Sign Up</button></Link>
-            {user ? ( 
-                <p onClick = {logoutUser}>Logout</p>
+              {user ? ( 
+                <button onClick = {logoutUser}>Logout</button>
             ) : ( 
-                <Link to = "/login">Login</Link>
-            )}
+                <Link to = '/login'><button className = "login">Login/Sign Up</button></Link>
+            )} 
 
             {user && <p>Hello {user.username}</p>  }
         </div>

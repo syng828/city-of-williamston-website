@@ -6,7 +6,6 @@ import Register from './pages/Register';
 import Permit from './pages/Permit';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -15,10 +14,10 @@ function App() {
       <BrowserRouter>
       <AuthProvider>
         <Routes> 
-          <Route path = "/"  element = {<Home/>}></Route>
+          <Route path = "/"  element = {<Home/>} ></Route>
           <Route path = "/login"  element = {<Login/>}></Route>
           <Route path = "/register" element = {<Register/>}></Route>
-          <Route path="/permit" element={<PrivateRoute><Permit/></PrivateRoute>}/>
+          <Route path="/permit" element={<Permit/>}></Route>   {/*removed private route, will add back later */}
         </Routes>
       </AuthProvider>
       </BrowserRouter>
