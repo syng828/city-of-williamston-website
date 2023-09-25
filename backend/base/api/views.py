@@ -1,13 +1,11 @@
-from django.http import JsonResponse
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
-from .serializers import NoteSerializer
-from base.models import Note
+from .serializers import RegistrationSerializer
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -26,19 +24,16 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
+class RegistrationAPIView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = RegistrationSerializer
+
+
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
         '/api/token',
         '/api/token/refresh',
+        '/api/register'
     ]
     return Response(routes)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getNotes(request):
-    user = request.user
-    notes = user.note_set.all()
-    serializer = NoteSerializer(notes, many=True)
-    return Response(serializer.data)
