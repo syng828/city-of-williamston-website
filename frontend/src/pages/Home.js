@@ -3,7 +3,7 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 //this is the homepage
-function Home () {  
+const Home = () => {  
     let {user, logoutUser} = useContext(AuthContext)
     return (
         <div className= "home">

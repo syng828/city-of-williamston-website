@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 //only created basics, will edit the confirm password later, and requiring a strong password (without it, google will send an error msg)
-function Register () { 
+const Register = () =>  { 
     const[firstName, setFirstName] = useState('');
     const[lastName, setLastName] = useState('');
     const[username, setUsername] = useState('');
