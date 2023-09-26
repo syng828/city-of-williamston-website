@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
-function Login () { 
+const Login = () =>{ 
     const[username, setUsername] = useState('');
     const [password, setPassword] = useState(''); 
 
