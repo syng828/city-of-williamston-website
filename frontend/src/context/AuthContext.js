@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import jwt_decode from "jwt-decode";
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'; 
 
 const AuthContext = createContext()
 
@@ -11,23 +11,27 @@ export const AuthProvider = ({children}) => {
     let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
 
+    const navigate = useNavigate()
+
     let loginUser = async (e)=> {
         e.preventDefault()
-        let response = await fetch('http://127.0.0.1:8000/api/token/', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({'username':e.target.username.value, 'password':e.target.password.value})
-        })
-        let data = await response.json()
+            let response = await fetch('http://127.0.0.1:8000/api/token/', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({'username':e.target.username.value, 'password':e.target.password.value})
+            })
+            let data = await response.json()
 
-        if(response.status === 200){
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens', JSON.stringify(data))
-        }else{
-            alert('Something went wrong!')
+            if(response.status === 200){
+                setAuthTokens(data)
+                setUser(jwt_decode(data.access))
+                localStorage.setItem('authTokens', JSON.stringify(data))
+                navigate('/') //redirect fixed
+        }
+        else {
+            alert('Unable to login!')  //prob could find a way to make more specific (actual http msg but fine for now)
         }
     }
 
@@ -38,22 +42,23 @@ export const AuthProvider = ({children}) => {
         localStorage.removeItem('authTokens')
     }
 
-    // let registerUser = async (e) => { 
-    //     let response = await fetch('http://127.0.0.1:8000/api/register', {
-    //         method:'POST',
-    //         headers:{
-    //             'Content-Type':'application/json'
-    //         },
-    //         body:JSON.stringify({'first_name':e.target.firstName.value, 'last_name':e.target.lastName.value, 'email': e.target.email.value, 'username': e.target.username.value, 'password': e.target.password.value})
-    //     })
-    //     let data = await response.json()
-
-    //     if(response.status === 200){
-    //         redirect('/login')
-    //     }else{
-    //         alert('Something went wrong!')
-    //     }
-    // }
+     let registerUser = async (e) => { 
+        e.preventDefault();
+        let response = await fetch('http://127.0.0.1:8000/api/register/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'first_name':e.target.firstName.value, 'last_name':e.target.lastName.value, 'email': e.target.email.value, 'username': e.target.username.value, 'password': e.target.password.value})
+            })
+                let data = await response.json()  
+                    if(response.status === 201){
+                        navigate('/login')   
+                    }
+                    else  {
+                        alert('Unable to register!')
+                    }
+     }
 
 
     let updateToken = async ()=> {
@@ -71,7 +76,6 @@ export const AuthProvider = ({children}) => {
             setAuthTokens(data)
             setUser(jwt_decode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            redirect('/')    //redirect is broken for some reason.. just click to home page for now 
         }else{
             logoutUser()
         }
@@ -86,7 +90,7 @@ export const AuthProvider = ({children}) => {
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
-     //   registerUser:registerUser
+        registerUser:registerUser
     }
 
 

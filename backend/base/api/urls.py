@@ -3,7 +3,7 @@ from . import views
 from .views import MyTokenObtainPairView, RegistrationAPIView
 
 from rest_framework_simplejwt.views import (
-    TokenRefreshView,
+    TokenRefreshView, 
 )
 
 urlpatterns = [
