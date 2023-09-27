@@ -12,19 +12,18 @@ const Register = () =>  {
     const[confirmPassword, setConfirmPassword] = useState(''); 
     const[isError, setisError] = useState('');
 
-   // let {registerUser} = useContext(AuthContext)
+    let {registerUser} = useContext(AuthContext)
 
     const handleSubmit = (e) => {  
         e.preventDefault(); 
-        if (password !== confirmPassword) { 
-            setisError("Passwords do not match");
-        }
-        else { 
-            setisError(""); 
-            // registerUser(e);
-            console.log(e); //for some reason target vale is returning undefined
-        }
-    }
+         if (password !== confirmPassword) { 
+             setisError("Passwords do not match");
+         }
+         else { 
+             setisError(""); 
+             registerUser(e);
+         }
+     }
 
     return (
         <div>
@@ -34,6 +33,7 @@ const Register = () =>  {
                     <h2>Register</h2> 
                         <input 
                             type = "text"
+                            name = "firstName"
                             required
                             value = {firstName}
                             placeholder = "First Name"
@@ -41,6 +41,7 @@ const Register = () =>  {
                         />
                         <input 
                             type = "text"
+                            name = "lastName"
                             required
                             value = {lastName}
                             placeholder = "Last Name"
@@ -48,6 +49,7 @@ const Register = () =>  {
                         />
                         <input
                             type = "text"
+                            name = "username"
                             required
                             value = {username}
                             placeholder = "Username"
@@ -55,6 +57,7 @@ const Register = () =>  {
                         />
                         <input 
                             type = "email"
+                            name = "email"
                             required
                             value = {email}
                             placeholder = "Email"
@@ -62,6 +65,7 @@ const Register = () =>  {
                         />
                         <input 
                             type = "password" 
+                            name = "password"
                             required
                             value = {password}
                             placeholder = "Password"

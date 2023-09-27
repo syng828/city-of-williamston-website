@@ -21,6 +21,7 @@ const ContactUs = () => {
             <input 
                 type="text" 
                 id="name" 
+                name = "name"
                 value = {name}
                 required
                 onChange = {(e) => (setName(e.target.value))}
@@ -29,6 +30,7 @@ const ContactUs = () => {
             <input 
                 type="email" 
                 id= "email" 
+                name = "email"
                 value = {email}
                 required
                 onChange = {(e) => (setEmail(e.target.value))}
