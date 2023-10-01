@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import styles from '../contact.module.css' //will make a single css later
+import Navigation from '../components/Navigation'
 
 const ContactUs = () => {
     const[name, setName] = useState(''); 
@@ -15,6 +16,7 @@ const ContactUs = () => {
 
   return (
     <div className = "contact-us">
+      <Navigation/>
         <h1>Contact Us Form</h1>
         <form onSubmit = {handleSubmit}>
             <label>Name:</label>  

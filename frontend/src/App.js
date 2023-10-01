@@ -3,7 +3,8 @@ import './App.css';
 import Home from './pages/Home'
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Permit from './pages/Permit';
+import MyPermit from './pages/MyPermit';
+import SendPermit from './pages/SendPermit';
 import ContactUs from './pages/ContactUs';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -18,7 +19,8 @@ function App() {
           <Route path = "/"  element = {<Home/>} ></Route>
           <Route path = "/login"  element = {<Login/>}></Route>
           <Route path = "/register" element = {<Register/>}></Route>
-          <Route path="/permit" element={<Permit/>}></Route>   {/*removed private route, will add back later */}
+          <Route path="/permit" element={<MyPermit/>}></Route>   
+          <Route path = "/permitSend" element = {<SendPermit/>}></Route>
           <Route path = "/contact" element = {<ContactUs/>}></Route>
         </Routes>
       </AuthProvider>
