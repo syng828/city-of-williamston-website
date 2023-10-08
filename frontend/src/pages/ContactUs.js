@@ -1,7 +1,8 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useContext} from 'react'
 import styles from '../contact.module.css' //will make a single css later
 import Navigation from '../components/Navigation'
+import AuthContext from '../context/AuthContext'
 
 const ContactUs = () => {
     const[name, setName] = useState(''); 
@@ -9,10 +10,12 @@ const ContactUs = () => {
     const[department, setDepartment] = useState(''); 
     const[message, setMessage] = useState(''); 
 
-  const handleSubmit = (e) => { 
-    e.preventDefault();
-    console.log(e.target.department.value);
-  }
+    let {contact} = useContext(AuthContext);
+
+    const handleSubmit = (e) => {  
+      e.preventDefault(); 
+      contact(e);
+   }
 
   return (
     <div className = "contact-us">
