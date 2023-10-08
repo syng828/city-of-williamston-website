@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import MyPermit from './pages/MyPermit';
 import SendPermit from './pages/SendPermit';
 import ContactUs from './pages/ContactUs';
+import DepartmentPage from './pages/DepartmentPage';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -22,6 +23,7 @@ function App() {
           <Route path="/permit" element={<MyPermit/>}></Route>   
           <Route path = "/permitSend" element = {<SendPermit/>}></Route>
           <Route path = "/contact" element = {<ContactUs/>}></Route>
+          <Route path = "/department" element = {<DepartmentPage/>}></Route>
         </Routes>
       </AuthProvider>
       </BrowserRouter>

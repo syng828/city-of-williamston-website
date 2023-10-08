@@ -11,8 +11,7 @@ const Navigation = () => {
         <div className= "navbar">
             <img src = {WilliamstonLogo} alt = "williamston logo"></img>
             <br></br>
-                <Link to ='/department'><button>Our Department</button></Link>
-            
+                 <Link to ='/department'><button>Our Department</button></Link>
             <div className = "dropdown">
                 <button className = "dropbtn">Permits</button>
                     <div className="dropdown-content">
