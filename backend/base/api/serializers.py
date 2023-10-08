@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from ..models import Contact
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -8,7 +9,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = User  #This uses a specified model named User that was provided by Django
         fields = ('first_name', 'last_name', 'email', 'username', 'password')
 
     def validate(self, args):
@@ -25,3 +26,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+    
+
+class ContactSerializer(serializers.ModelSerializer): 
+    class Meta:
+        model = Contact
+        fields = '__all__'
