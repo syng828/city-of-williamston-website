@@ -51,13 +51,13 @@ export const AuthProvider = ({children}) => {
             },
             body:JSON.stringify({'first_name':e.target.firstName.value, 'last_name':e.target.lastName.value, 'email': e.target.email.value, 'username': e.target.username.value, 'password': e.target.password.value})
             })
-                let data = await response.json()  
-                    if(response.status === 201){
-                        navigate('/login')   
-                    }
-                    else  {
-                        alert('Unable to register!')
-                    }
+        let data = await response.json()  
+            if(response.status === 201){
+                navigate('/login')   
+            }
+            else  {
+                alert('Unable to register!')
+            }
      }
 
 
@@ -85,14 +85,32 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    let contact = async(e) => { 
+        console.log('clicked')
+        let response = await fetch('http://127.0.0.1:8000/api/contact/', { 
+            method: 'POST', 
+            headers: { 
+                'Content-Type':'application/json'
+            }, 
+            body:JSON.stringify({'department': e.target.department.value, 'name': e.target.name.value, 'email': e.target.email.value, 'content': e.target.message.value})
+        })
+        let data = await response.json()
+
+        if (response.status === 201) { 
+            alert('Contact us form sent!'); 
+        } else { 
+            alert('Something went wrong!')
+        }
+    }
+
     let contextData = {
         user:user,
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
-        registerUser:registerUser
+        registerUser:registerUser,
+        contact:contact
     }
-
 
     useEffect(()=> {
 
@@ -113,5 +131,5 @@ export const AuthProvider = ({children}) => {
         <AuthContext.Provider value={contextData} >
             {loading ? null : children}
         </AuthContext.Provider>
-    )
+    ) 
 }
