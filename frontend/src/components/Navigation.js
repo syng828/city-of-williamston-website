@@ -11,20 +11,8 @@ const Navigation = () => {
         <div className= "navbar">
             <img src = {WilliamstonLogo} alt = "williamston logo"></img>
             <br></br>
-            <div className = "dropdown">
-                <button className = "dropbtn">Departments</button>
-                    <div className="dropdown-content">
-                        <Link to = ''>Assessing</Link>
-                        <Link to = ''>City Manager</Link>
-                        <Link to = ''>City Staff</Link>
-                        <Link to = ''>Clerk</Link>
-                        <Link to = ''>Department of Public Works (DPW)</Link>
-                        <Link to = ''>Finance/Treasurer</Link>
-                        <Link to = ''>Planning & Zoning</Link>
-                        <Link to = ''>Police Department</Link>
-                        <Link to = ''>Water & Sewer</Link>
-                    </div>
-            </div>
+                <Link to ='/department'><button>Our Department</button></Link>
+            
             <div className = "dropdown">
                 <button className = "dropbtn">Permits</button>
                     <div className="dropdown-content">
