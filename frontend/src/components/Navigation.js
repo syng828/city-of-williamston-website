@@ -11,9 +11,10 @@ const Navigation = () => {
         <div className= "navbar">
             <img src = {WilliamstonLogo} alt = "williamston logo"></img>
             <br></br>
-                 <Link to ='/department'><button>Our Department</button></Link>
+            <Link to = '/'><button>Home</button></Link> {/*buttons in wrong place*/}
+            <Link to ='/department'><button>Departments</button></Link>
             <div className = "dropdown">
-                <button className = "dropbtn">Permits</button>
+                <button className = "dropbtn">Permits</button> 
                     <div className="dropdown-content">
                         <Link to = '/permit'>View My Permits</Link>
                         <Link to = '/permitSend'>Send a New Permit Request</Link>

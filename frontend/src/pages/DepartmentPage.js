@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navigation from '../components/Navigation'; // Import the Navigation 
-import './departmentPage.css'
+import styles from '../departmentPage.css';
 
 const DepartmentPage = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(null);
