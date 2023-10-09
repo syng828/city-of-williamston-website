@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Navigation from '../components/Navigation';
+import AuthContext from '../context/AuthContext';
 
 const SendPermit = () => {
   const [department, setDepartment] = useState('');
@@ -7,12 +8,32 @@ const SendPermit = () => {
   const [deptForm, setDeptForm] = useState('');
   const [file, setFile] = useState(null);
 
-  const handleSubmit = (e) => { 
-    e.preventDefault(); 
-    console.log('send clicked')
+  let {user, authTokens} = useContext(AuthContext);
 
-    const fd = new FormData()    
-    fd.append('file', file)   //afterwards, do a post request to the api. for backend. 
+  const handleSubmit = async (e) => { 
+    e.preventDefault();
+    const fd = new FormData();
+    fd.append('department', department);
+    fd.append('form', deptForm);
+    fd.append('file', file);
+
+    try {
+        const response = await fetch('/api/permit_request/', {
+            method: 'POST',
+            body: fd,
+            headers: {
+                'Authorization': `Bearer ${authTokens}`, // Add your authentication token here
+            },
+        });
+
+        if (response.ok) {
+            console.log('Permit request submitted successfully');
+        } else {
+            console.error('Error submitting permit request');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
   }
 
   const departmentOptions = ['Building Department & Trade Permit', 'City', 'DDA', 
