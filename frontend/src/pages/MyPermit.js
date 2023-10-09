@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useContext } from "react";
 import AuthContext from '../context/AuthContext';
 import Navigation from '../components/Navigation';
-
+import './permit.css';
 const MyPermit = () => { 
 
   let {user} = useContext(AuthContext);
