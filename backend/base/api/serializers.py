@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from ..models import Contact
+from ..models import Contact, PermitRequest
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -31,4 +31,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer): 
     class Meta:
         model = Contact
+        fields = '__all__'
+
+class PermitRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PermitRequest
         fields = '__all__'
