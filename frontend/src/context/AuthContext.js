@@ -44,20 +44,30 @@ export const AuthProvider = ({children}) => {
 
      let registerUser = async (e) => { 
         e.preventDefault();
-        let response = await fetch('http://127.0.0.1:8000/api/register/', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({'first_name':e.target.firstName.value, 'last_name':e.target.lastName.value, 'email': e.target.email.value, 'username': e.target.username.value, 'password': e.target.password.value})
-            })
-        let data = await response.json()  
-            if(response.status === 201){
-                navigate('/login')   
-            }
-            else  {
-                alert('Unable to register!')
-            }
+        try { 
+            let response = await fetch('http://127.0.0.1:8000/api/register/', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({'first_name':e.target.firstName.value, 'last_name':e.target.lastName.value, 'email': e.target.email.value, 'username': e.target.username.value, 'password': e.target.password.value})
+                })
+
+                if(response.status === 201){
+                    navigate('/login')   
+                } else if (response.status === 400) {
+                    const errorData = await response.json();
+                    let error = '';
+                    if (errorData.username) error = errorData.username[0];
+                    else if (errorData.email) error = errorData.email[0];
+                    else if (errorData.non_field_errors) error = errorData.non_field_errors[0];
+                    throw new Error(error);
+                } else {
+                    throw new Error('Server error'); // Handle other server errors
+                }     
+        } catch (error) { 
+            throw error
+        }
      }
 
 

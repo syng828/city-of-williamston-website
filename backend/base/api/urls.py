@@ -13,5 +13,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('contact/', ContactAPIView.as_view(), name= 'contact'), 
     path('permit_request/', PermitRequestAPIView.as_view(), name='permit-request'),
-    path('permit_requests/', get_permit_requests, name='permit-requests')
+    path('permit_requests/', views.get_permit_requests, name='permit-requests')
 ]

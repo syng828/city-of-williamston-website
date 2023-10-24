@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from ..models import Contact, PermitRequest
-
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 class RegistrationSerializer(serializers.ModelSerializer):
 
@@ -15,12 +16,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def validate(self, args):
         email = args.get('email', None)
         username = args.get('username', None)
-        if User.objects.filter(email=email).exists():
-            raise serializers.ValidationError(
-                {'email': ('email already exists')})
-        if User.objects.filter(username=username).exists():
-            raise serializers.ValidationError(
-                {'username': ('username already exists')})
+        password = args.get('password', None)
+
+        try: 
+            validate_password(password)
+        except ValidationError as e:
+            raise serializers.ValidationError(str(e))
 
         return super().validate(args)
 

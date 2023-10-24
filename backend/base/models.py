@@ -19,9 +19,5 @@ class Contact(models.Model):
 class PermitRequest(models.Model):
     department = models.CharField(max_length=255)
     form = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
-    status = models.CharField(max_length=255, default='Pending')
+    file = models.FileField(upload_to ='uploads/')
     date_submitted = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.department} - {self.form} ({self.username})"
