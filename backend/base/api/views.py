@@ -17,10 +17,10 @@ from decouple import config
 
 # Create your views here.
 
-'''CLIENT_ID = config('CLIENT_ID')
+CLIENT_ID = config('CLIENT_ID')
 CLIENT_SECRET = config('CLIENT_SECRET')
 REFRESH_TOKEN = config('REFRESH_TOKEN')
-ACCESS_TOKEN = config('ACCESS_TOKEN')'''
+ACCESS_TOKEN = config('ACCESS_TOKEN')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -89,7 +89,7 @@ class RegistrationAPIView(generics.CreateAPIView):
                 ]
             }
             headers = { 
-                "Authorization": "Zoho-oauthToken {pasteYourTokenHere..butDONOTCOMMIT and remove if you can't set up the env yet}", #do not commit need put env file, #also need the token to refresh so.. will do that last though. prob just generate refresh here. 
+                "Authorization": f'Zoho-oauthToken {ACCESS_TOKEN}', #do not commit need put env file, #also need the token to refresh so.. will do that last though. prob just generate refresh here. 
                 "Content-Type":"application/json"
             }
             try:
