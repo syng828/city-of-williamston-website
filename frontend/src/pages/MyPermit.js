@@ -3,17 +3,27 @@ import { useState, useContext, useEffect } from "react";
 import AuthContext from '../context/AuthContext';
 import Navigation from '../components/Navigation';
 import './permit.css';
-const MyPermit = () => { 
+const MyPermit = () => {
 
-  let {user, authTokens} = useContext(AuthContext);
-  const [permitData, setPermitData] = useState([]);
+    let { user, authTokens, permitUpdated } = useContext(AuthContext);
+    const [username, setUsername] = useState(null);
+    const [permitData, setPermitData] = useState([]);
 
-  useEffect(() => {
+    useEffect(() => {
+        // Check if the username has changed or added permit, avoids unnecessary API calls
+        if (user && user.username !== username || permitUpdated) {
+            setUsername(user.username);
+            fetchPermitData();
+        }
+    }, [user, username, permitUpdated]);
+
     const fetchPermitData = async () => {
         try {
-            const response = await fetch('/api/permit_requests/', {
+            const response = await fetch('http://127.0.0.1:8000/api/permit_requests/', {
+                method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${authTokens}`, // Add your authentication token here
+                    'Content-Type': 'application/json',
+                    "Authorization": `JWT ${authTokens.access}`,
                 },
             });
 
@@ -28,17 +38,12 @@ const MyPermit = () => {
         }
     };
 
-    if (user) {
-        fetchPermitData();
-    }
-}, [user]);
-
-  return (
-    <>
-    <Navigation/>
-      <h1>Permit</h1>
-      <h2>My Permits </h2>
-      {user ? (
+    return (
+        <>
+            <Navigation />
+            <h1>Permit</h1>
+            <h2>My Permits </h2>
+            {user ? (
                 <div className="permit-info">
                     <table>
                         <thead>
@@ -51,7 +56,7 @@ const MyPermit = () => {
                         <tbody>
                             {permitData.map((permit, index) => (
                                 <tr key={index}>
-                                    <td>{permit.form}</td>
+                                    <td>{permit.department}</td>
                                     <td>{permit.date_submitted}</td>
                                     <td>{permit.status}</td>
                                 </tr>
@@ -62,9 +67,9 @@ const MyPermit = () => {
             ) : (
                 <p>Please login to view your permits and send a new request!</p>
             )}
-          
-    </>
-  )
+
+        </>
+    )
 }
 
 export default MyPermit
