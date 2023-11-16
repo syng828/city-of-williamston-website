@@ -1,64 +1,63 @@
-
-/*.home button { 
-  position: absolute; 
-  top: 10px; 
-  right: 10px; 
+/* .home button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.backHome { 
-  position: absolute; 
-  top: 10px; 
+.backHome {
+  position: absolute;
+  top: 10px;
   left: 10px;
 }
 
-.container { 
-  display: flex;  
-  flex-direction: column; 
+.container {
+  display: flex;
+  flex-direction: column;
   margin: auto;
   background-color: rgb(213, 231, 231);
-  margin-top:100px;
+  margin-top: 100px;
   padding-bottom: 30px;
   width: 400px;
   height: auto;
-  border-radius:5px;
+  border-radius: 5px;
 }
 
-form {  
-  display: flex; 
+form {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 10px;
 }
 
-label { 
+label {
   text-align: left;
 }
 
-input { 
+input {
   margin: 5px;
 }
 
-.error { 
-  text-align: left; 
+.error {
+  text-align: left;
   font-size: 10px;
   color: red;
-} 
+}
 
-Specific to login page, ignore for now because not sure how to combine styling yet. but i alr did do some*/ 
 
 
 navbar {
   overflow: hidden;
 }
 
-.dropdown { 
-  float: left; /* Float the dropdown containers to make them inline */
-  margin-right: 100px; 
-}
+.dropdown {
+  float: left;
+  /* Float the dropdown containers to make them inline */
+/* margin-right: 100px;
+} */
 
 /* Style the dropdown content (hidden by default) */
-.dropdown-content {
+/* .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;

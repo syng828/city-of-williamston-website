@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import AuthContext from '../context/AuthContext';
 import Navigation from '../components/Navigation';
 import './permit.css';
+import jwt_decode from "jwt-decode";  //run npm install --save jwt-decode
 const MyPermit = () => {
 
     let { user, authTokens, permitUpdated } = useContext(AuthContext);

@@ -18,9 +18,6 @@ from decouple import config
 
 # Create your views here.
 
-CLIENT_ID = config('CLIENT_ID')
-CLIENT_SECRET = config('CLIENT_SECRET')
-REFRESH_TOKEN = config('REFRESH_TOKEN')
 ACCESS_TOKEN = config('ACCESS_TOKEN')
 
 
@@ -53,18 +50,12 @@ class RegistrationAPIView(generics.CreateAPIView):
             lastName = request.data['last_name']
             email = request.data['email']
 
-            user = serializer.save()
-            user_id = user.id
-
             external_api_url = "https://www.zohoapis.com/crm/v2/Contacts"
             payload = {
                 "data": [
                     {
                         "Owner": {
                             "id": "5989550000000438001"  # stephanie's id, possible to switch with another account
-                        },
-                        "Account": {
-                            "id": user_id  # added id option, so for connecting to other stuff just do request.user.id as should match
                         },
                         "Email": email,
                         "First_Name": firstName,
@@ -80,6 +71,10 @@ class RegistrationAPIView(generics.CreateAPIView):
                 response = requests.post(
                     external_api_url, json=payload, headers=headers)
                 response.raise_for_status()  # Raise an error for non-2xx response codes
+                data = response.json()
+                # issue, the id is auto generated so instead should probably store it somewhere so can call it again for the record id.
+                userid = data.get('id')
+                user = serializer.save()
                 return Response({'message': 'Registration and API call successful'}, status=status.HTTP_201_CREATED)
             except requests.exceptions.RequestException as e:
                 return Response({'error': 'API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
