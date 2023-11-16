@@ -117,8 +117,7 @@ export const AuthProvider = ({ children }) => {
 
     let permitSubmit = async (formData) => {
         console.log('clicked')
-
-        let response = await fetch('http://127.0.0.1:8000/api/permit_request/', {
+        /* let response = await fetch('http://127.0.0.1:8000/api/permit_request/', {
             headers: {
                 "Authorization": `JWT ${authTokens.access}`,
             },
@@ -134,7 +133,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/permit')
         } else {
             alert('Something went wrong!')
-        }
+        } */
     }
 
 

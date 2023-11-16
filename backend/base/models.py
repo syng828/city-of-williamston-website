@@ -27,3 +27,7 @@ class PermitRequest(models.Model):
     date_submitted = models.DateField(auto_now_add=True)
     # change the status in the crm, and then change the status here! need notif api or something!
     status = models.CharField(max_length=20, default='In Progress')
+
+class UserNew (models.Model):  ## version of user with id
+    ## i think the foreign key is usernew
+    

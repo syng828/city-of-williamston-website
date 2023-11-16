@@ -110,9 +110,30 @@ class PermitRequestAPIView(generics.CreateAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            file = request.data['file']  # how to get??
+            # make record id dynamic later
+            external_api_url = "https://www.zohoapis.com/crm/v2/Contacts/5989550000000487002/Attachments"
+            payload = {
+                "data": [
+                    {
+                        "file": file
+                    }
+                ]
+            }
+            headers = {
+                "Authorization": f'Zoho-oauthToken {ACCESS_TOKEN}',
+            }
+            try:
+                response = requests.post(
+                    external_api_url, json=payload, headers=headers)
+                response.raise_for_status()  # Raise an error for non-2xx response codes
+                data = response.json()
+                serializer.save()
+                return Response({'message': 'Permit Submission and file upload call successful'}, status=status.HTTP_201_CREATED)
+            except requests.exceptions.RequestException as e:
+                return Response({'error': 'File API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
