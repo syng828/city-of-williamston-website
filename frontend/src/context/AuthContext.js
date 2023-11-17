@@ -9,7 +9,6 @@ export default AuthContext;
 export const AuthProvider = ({ children }) => {
     let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
-    let [userID, setUserID] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens'))['user-id'] : null)
     let [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
@@ -28,7 +27,8 @@ export const AuthProvider = ({ children }) => {
 
         if (response.status === 200) {
             setAuthTokens(data)
-            setUser(jwt_decode(data.access))
+            const decodedToken = jwt_decode(data.access)
+            setUser(decodedToken)
             localStorage.setItem('authTokens', JSON.stringify(data))
             navigate('/') //redirect fixed
         }
@@ -86,7 +86,8 @@ export const AuthProvider = ({ children }) => {
 
         if (response.status === 200) {
             setAuthTokens(data)
-            setUser(jwt_decode(data.access))
+            const decodedToken = jwt_decode(data.access)
+            setUser(decodedToken)
             localStorage.setItem('authTokens', JSON.stringify(data))
         } else {
             logoutUser()
@@ -117,7 +118,7 @@ export const AuthProvider = ({ children }) => {
 
     let permitSubmit = async (formData) => {
         console.log('clicked')
-        /* let response = await fetch('http://127.0.0.1:8000/api/permit_request/', {
+        let response = await fetch('http://127.0.0.1:8000/api/permit_request/', {
             headers: {
                 "Authorization": `JWT ${authTokens.access}`,
             },
@@ -133,7 +134,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/permit')
         } else {
             alert('Something went wrong!')
-        } */
+        }
     }
 
 

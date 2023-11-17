@@ -6,10 +6,13 @@ from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
 
+from rest_framework.parsers import FileUploadParser
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import RegistrationSerializer, ContactSerializer, PermitRequestSerializer
-from ..models import PermitRequest
+from ..models import PermitRequest, UserProfile
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from django.core.mail import send_mail
@@ -29,6 +32,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         # ...
+        try:
+            user_profile = user.user_profile
+            zoho_id = user_profile.zoho_id
+            token['zoho_id'] = zoho_id
+        except UserProfile.DoesNotExist:
+            pass
 
         return token
 
@@ -71,10 +80,12 @@ class RegistrationAPIView(generics.CreateAPIView):
                 response = requests.post(
                     external_api_url, json=payload, headers=headers)
                 response.raise_for_status()  # Raise an error for non-2xx response codes
-                data = response.json()
-                # issue, the id is auto generated so instead should probably store it somewhere so can call it again for the record id.
-                userid = data.get('id')
-                user = serializer.save()
+                dataRes = response.json()
+                # path of grabbing the id
+                userid = dataRes["data"][0]["details"]["id"]
+                serializer.context['userid'] = userid
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
                 return Response({'message': 'Registration and API call successful'}, status=status.HTTP_201_CREATED)
             except requests.exceptions.RequestException as e:
                 return Response({'error': 'API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -108,27 +119,33 @@ class PermitRequestAPIView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        user = request.user
+        user_profile = user.user_profile  # Access the oneToOneField relationship
+        zoho_id = user_profile.zoho_id
+
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            file = request.data['file']  # how to get??
-            # make record id dynamic later
-            external_api_url = "https://www.zohoapis.com/crm/v2/Contacts/5989550000000487002/Attachments"
-            payload = {
-                "data": [
-                    {
-                        "file": file
-                    }
-                ]
-            }
-            headers = {
-                "Authorization": f'Zoho-oauthToken {ACCESS_TOKEN}',
-            }
+            permitObject = serializer.save()
+
+            # TODO: add to upload task, again you can just use the id but the issue is.. is that im not sure what who and what id is if you look at postman.
+            # so try using postman first!!
+            # then just periodically call the api for mypermits in the getrequest just to get the status of the permit to see if changed
+
+            # to upload file
+            file_path = permitObject.file.path
+            file_name = permitObject.file.name
+
+            with open(file_path, 'rb') as file:
+                file_content = file.read()
+
+            external_api_url = f'https://www.zohoapis.com/crm/v2/Contacts/{zoho_id}/Attachments'
+            files = {'file': (file_name, file_content)}
+            headers = {'Authorization': f'Zoho-oauthToken {ACCESS_TOKEN}'}
+
             try:
                 response = requests.post(
-                    external_api_url, json=payload, headers=headers)
+                    external_api_url, headers=headers, files=files)
                 response.raise_for_status()  # Raise an error for non-2xx response codes
-                data = response.json()
-                serializer.save()
                 return Response({'message': 'Permit Submission and file upload call successful'}, status=status.HTTP_201_CREATED)
             except requests.exceptions.RequestException as e:
                 return Response({'error': 'File API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

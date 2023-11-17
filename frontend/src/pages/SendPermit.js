@@ -16,7 +16,7 @@ const SendPermit = () => {
     const formData = new FormData();
     formData.append('department', e.target.department.value);
     formData.append('form', e.target.deptForm.value);
-    formData.append('file', file);
+    formData.append('file', file, file.name);
 
     permitSubmit(formData);
   }

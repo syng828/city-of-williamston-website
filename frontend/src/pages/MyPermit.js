@@ -6,7 +6,7 @@ import './permit.css';
 import jwt_decode from "jwt-decode";  //run npm install --save jwt-decode
 const MyPermit = () => {
 
-    let { user, authTokens, permitUpdated } = useContext(AuthContext);
+    let { user, zohoID, authTokens, permitUpdated } = useContext(AuthContext);
     const [username, setUsername] = useState(null);
     const [permitData, setPermitData] = useState([]);
 
@@ -45,7 +45,7 @@ const MyPermit = () => {
             <h1>Permit</h1>
             <h2>My Permits </h2>
             {user ? (
-                <div className="permit-info">
+                < div className="permit-info">
                     <table>
                         <thead>
                             <tr>
@@ -64,7 +64,7 @@ const MyPermit = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div >
             ) : (
                 <p>Please login to view your permits and send a new request!</p>
             )}
