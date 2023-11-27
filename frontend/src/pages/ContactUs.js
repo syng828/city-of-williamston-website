@@ -3,6 +3,7 @@ import { useState, useContext} from 'react'
 import styles from '../contact.module.css' //will make a single css later
 import Navigation from '../components/Navigation'
 import AuthContext from '../context/AuthContext'
+import '../contact.module.css'
 
 const ContactUs = () => {
     const[name, setName] = useState(''); 
@@ -20,6 +21,8 @@ const ContactUs = () => {
   return (
     <div className = "contact-us">
       <Navigation/>
+      <div class = "contactContainer">
+      <center>
         <h1>Contact Us Form</h1>
         <form onSubmit = {handleSubmit}>
             <label>Name:</label>  
@@ -58,10 +61,12 @@ const ContactUs = () => {
                 required
                 onChange = {(e) => (setMessage(e.target.value))}
             ></textarea>
-            <button type = "submit">Submit</button>
+            <button type = "submit" class = "centered">Submit</button>
         </form>
+        </center>
+        </div>
     </div>
   )
-}
+} 
 
 export default ContactUs
