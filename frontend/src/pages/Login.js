@@ -1,14 +1,15 @@
 import React, {useContext, useState} from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-
+import './login.css';
 const Login = () =>{ 
     const[username, setUsername] = useState('');
     const [password, setPassword] = useState(''); 
 
     let{loginUser} = useContext(AuthContext)
 
-    return (
+    return ( 
+       
         <div className = "login">
             <Link to = '/'><header className = "backHome">Back to Home</header></Link>
             <div className = "container">
@@ -30,8 +31,8 @@ const Login = () =>{
                             name = "password"
                             onChange = {(e)=> setPassword(e.target.value)}
                         />
-                        <button>Login</button>
-                        <p>Don't have an account? <Link to = '/register'>Sign Up</Link></p>
+                        <button class = "smth">Login</button>
+                        <p>Don't have an account? <Link to = '/register' class = "white"> Sign Up</Link></p>
                     </form>
             </div>
         </div>
