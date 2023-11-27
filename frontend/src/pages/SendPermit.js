@@ -73,6 +73,9 @@ const SendPermit = () => {
   return (
     <div>
       <Navigation/>
+      
+      <div class = "permitSend">
+      <div class = "permitContainer">
       <h1>Send a New Permit Request</h1>
 
       <form onSubmit = {handleSubmit}>
@@ -102,7 +105,10 @@ const SendPermit = () => {
       <br></br>
       <br></br>
       <button>Send Request</button>
+      
       </form>
+     </div>
+      </div>
     </div>
   );
 }
