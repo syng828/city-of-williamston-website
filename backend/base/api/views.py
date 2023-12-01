@@ -123,32 +123,66 @@ class PermitRequestAPIView(generics.CreateAPIView):
         user_profile = user.user_profile  # Access the oneToOneField relationship
         zoho_id = user_profile.zoho_id
 
+        department_name = request.POST.get('department')
+        form_name = request.POST.get('form')
+
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             permitObject = serializer.save()
+            # Upload tasks for staff when submitting permit
+            external_api_url_tasks = "https://www.zohoapis.com/crm/v2/Tasks"
+            payload = {
 
-            # TODO: add to upload task, again you can just use the id but the issue is.. is that im not sure what who and what id is if you look at postman.
-            # so try using postman first!!
-            # then just periodically call the api for mypermits in the getrequest just to get the status of the permit to see if changed
+                "data": [
+                    {
+                        "Owner": {
+                            "id": "5989550000000438001"
+                        },
+                        "Who_Id": {
+                            "id": zoho_id
+                        },
+                        "$se_module": "CONTACTS",
+                        "Status": "In Progress",
+                        "Description": f"Review the submission tasked for {department_name}",
+                        "Priority": "Low",
+                        "Subject": f"Review {form_name}"
+                    }
+                ]
 
-            # to upload file
-            file_path = permitObject.file.path
-            file_name = permitObject.file.name
-
-            with open(file_path, 'rb') as file:
-                file_content = file.read()
-
-            external_api_url = f'https://www.zohoapis.com/crm/v2/Contacts/{zoho_id}/Attachments'
-            files = {'file': (file_name, file_content)}
-            headers = {'Authorization': f'Zoho-oauthToken {ACCESS_TOKEN}'}
-
+            }
+            headers = {
+                "Authorization": f'Zoho-oauthToken {ACCESS_TOKEN}',
+                "Content-Type": "application/json"
+            }
             try:
                 response = requests.post(
-                    external_api_url, headers=headers, files=files)
+                    external_api_url_tasks, json=payload, headers=headers)
                 response.raise_for_status()  # Raise an error for non-2xx response codes
-                return Response({'message': 'Permit Submission and file upload call successful'}, status=status.HTTP_201_CREATED)
+                dataRes = response.json()
+                # path to get taskid
+                taskid = dataRes["data"][0]["details"]["id"]
+                # upload file attachment to the task
+                print(taskid)
+                file_path = permitObject.file.path
+                file_name = permitObject.file.name
+
+                with open(file_path, 'rb') as file:
+                    file_content = file.read()
+
+                external_api_url = f'https://www.zohoapis.com/crm/v2/Tasks/{taskid}/Attachments'
+                files = {'file': (file_name, file_content)}
+                headers = {'Authorization': f'Zoho-oauthToken {ACCESS_TOKEN}'}
+
+                try:
+                    response = requests.post(
+                        external_api_url, headers=headers, files=files)
+                    response.raise_for_status()  # Raise an error for non-2xx response codes
+                    return Response({'message': 'Permit Submission and file upload call successful'}, status=status.HTTP_201_CREATED)
+                except requests.exceptions.RequestException as e:
+                    return Response({'error': 'File API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             except requests.exceptions.RequestException as e:
-                return Response({'error': 'File API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response({'error': 'Task API request failed', 'details': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

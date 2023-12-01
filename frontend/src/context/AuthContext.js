@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
             navigate('/') //redirect fixed
         }
         else {
-            alert('Unable to login!')  //prob could find a way to make more specific (actual http msg but fine for now)
+            alert('Unable to login!')
         }
     }
 
