@@ -10,7 +10,7 @@ import './Navigation.css';
 const Navigation = () => { 
   
    let {user, logoutUser} = useContext(AuthContext)
-   return (
+   return ( 
 
 
        <div className= "navbar">
