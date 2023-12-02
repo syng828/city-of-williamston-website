@@ -14,15 +14,21 @@ const Register = () =>  {
 
     let {registerUser} = useContext(AuthContext)
 
-    const handleSubmit = (e) => {  
+    const handleSubmit = async (e) => {  
         e.preventDefault(); 
          if (password !== confirmPassword) { 
              setisError("Passwords do not match");
          }
          else { 
              setisError(""); 
-             registerUser(e);
+             try {
+                await registerUser(e);
+             } catch (error) { 
+                const errorData = error.message; //tried finding a way to inspect the type of errors here but it doesn't work.. so that could specify which field highlight red
+                setisError(errorData);
+             }
          }
+         
      }
 
     return (
@@ -30,6 +36,7 @@ const Register = () =>  {
             <Link to = '/'><header className = "backHome">Back to Home</header></Link>
             <div className = "container">
                 <form onSubmit = {handleSubmit}>
+                <div className = "error">{isError}</div> 
                     <h2>Register</h2> 
                         <input 
                             type = "text"
@@ -78,7 +85,6 @@ const Register = () =>  {
                             placeholder = "Confirm Password"
                             onChange = {(e)=> setConfirmPassword(e.target.value)}
                         />
-                    <div className = "error">{isError}</div>
                     <button>Register</button>
                     <p>Already have an account? <Link to = '/login'>Log In</Link></p>
                 </form>

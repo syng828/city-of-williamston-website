@@ -1,6 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='user_profile')
+    zoho_id = models.CharField(max_length=255, unique=True)
+
 
 class Contact(models.Model):
     DEPARTMENT_CHOICES = (
@@ -16,12 +24,13 @@ class Contact(models.Model):
     email = models.EmailField()
     content = models.TextField()
 
+
 class PermitRequest(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, default=None)
     department = models.CharField(max_length=255)
     form = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
-    status = models.CharField(max_length=255, default='Pending')
-    date_submitted = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.department} - {self.form} ({self.username})"
+    file = models.FileField(upload_to='uploads/', default='default_file.txt')
+    date_submitted = models.DateField(auto_now_add=True)
+    # change the status in the crm, and then change the status here!
+    status = models.CharField(max_length=20, default='In Progress')
