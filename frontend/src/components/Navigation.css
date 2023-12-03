@@ -1,42 +1,38 @@
-button
-{
-   background-color: transparent;
-   border-radius: 25%;
-   margin-right: 200px;
- 
-   margin-left: auto;
-   border: black;
-   size: 20px
+button {
+  background-color: transparent;
+  border-radius: 25%;
+  border: black;
+  size: 20px
 }
 
-button:hover{
+button:hover {
   text-decoration: underline;
   color: red;
-  
-}
-button{
-  font-size: 15px;
-}
-.links
-{
-  margin-left: 25%;
 
 }
-.first
-{
-    margin-left: 10%;
+
+button {
+  font-size: 15px;
 }
-.sec
-{
-    margin-left: 10%;
+
+.links {
+  display: flex;
+  justify-content: center;
 }
-.third
-{
+
+.first {
+  margin-left: 10%;
+}
+
+.sec {
+  margin-left: 10%;
+}
+
+.third {
   margin-left: 9%
 }
 
 
-.navbar
-{
+.navbar {
   background-color: transparent;
-}  
+}

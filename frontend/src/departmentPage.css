@@ -1,4 +1,3 @@
-
 /* CSS file for DepartmentPage */
 
 .title {
@@ -27,7 +26,6 @@ ul {
 li {
   display: inline;
   margin: 10px 10px;
-  padding: 3%;
 }
 
 a {
@@ -35,6 +33,6 @@ a {
   text-decoration: none;
 }
 
-p{
+p {
   font-size: 20px;
 }
