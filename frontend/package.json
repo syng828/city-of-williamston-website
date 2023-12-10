@@ -19,7 +19,7 @@
     "devStart": "nodemon server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --watch",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,6 +41,22 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/plugin-syntax-jsx": "^7.23.3",
+    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-react": "^7.23.3",
+    "identity-obj-proxy": "^3.0.0",
+    "isomorphic-fetch": "^3.0.0",
+    "jest-fetch-mock": "^3.0.3",
     "nodemon": "^3.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      ".+\\.(png|css|less|scss|sass)$": "identity-obj-proxy"
+    }
   }
 }

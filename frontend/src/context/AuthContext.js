@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 
@@ -165,7 +165,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={contextData} >
-            {loading ? null : children}
+            {children}
         </AuthContext.Provider>
     )
 }

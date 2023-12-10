@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import Navigation from '../components/Navigation';
 import AuthContext from '../context/AuthContext';
+import './permit.css'
 
 const SendPermit = () => {
   const [department, setDepartment] = useState('');

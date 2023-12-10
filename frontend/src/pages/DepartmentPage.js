@@ -230,7 +230,7 @@ const DepartmentPage = () => {
   };
 
   return (
-    <div classname="DepartmentPage">
+    <div className="DepartmentPage">
       <Navigation />
       <header>
         <h1>Department</h1>
